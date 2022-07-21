@@ -1,8 +1,6 @@
-
 #include <iostream>
 #include <string>
 #include <stack>
-
 int main()
 {
     
@@ -29,7 +27,6 @@ int main()
                         if((text.length() > i + 1) && text[i+1]=='/')
                         {
                             tagname = std::string(text.begin() + i+2, text.begin() + j);
-                            //std::cout << "[TEST] tag: " << tagname << std::endl;
                             
                             if((tags.empty() == false) && (tagname == tags.top()))
                                 tags.pop();
@@ -44,14 +41,10 @@ int main()
                             {
                                 //<a locat = ">
                                 if((text.length() > i + 2 )&& text[i+2] == ' ')
-                                {
                                     tagname = std::string(text.begin() + i+1, text.begin() + 2);
-                                }
                                 else
                                     tagname = std::string(text.begin() + i+1, text.begin() + j);
                                 
-                                
-                               // std::cout << "[TEST] tag: " << tagname << std::endl;
                                 tags.push(tagname);
                             }
                             
@@ -66,9 +59,8 @@ int main()
             }
             
         }
-        if(tags.empty() == false) isLegal = false;
-
-        if(isLegal)
+        // 스택에 tag가 남아있다면 짝이 맞지 않은 것이다.
+        if(isLegal || tags.empty())
             std::cout << "legal\n";
         else
             std::cout <<"illegal\n";
