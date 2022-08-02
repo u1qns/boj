@@ -7,7 +7,7 @@ bool visited[MAX + 1];
 
 bool isValid(int num)
 {
-    if(num >= MAX || num < 0)
+    if(num > MAX || num < 0)
         return false;
         
     return true;
