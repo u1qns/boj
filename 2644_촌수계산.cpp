@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <queue>
+
 #define MAX 100
 
 std::vector<std::vector<int>> graph;
@@ -10,7 +12,6 @@ int result = 0;
 bool DFS(int v)
 {
     if(v == b) return true;
-    
     ++result;
     visited[v] = true;
     
@@ -22,17 +23,44 @@ bool DFS(int v)
         {
             //탐색 시작
             if(DFS(graph[v][i])) return true;
-            else --result; // 이어지는 촌수가 없다면 다시 촌수 올라가야하니까 빼줌
+            else --result;
         }
     }
     
     return false;
 }
 
+bool BFS(int v)
+{
+    std::queue<int> q;
+    q.push(v);
+    visited[v] = true;
+    
+    while(!q.empty())
+    {
+        int qSize = q.size();
+        for(int j =0; j<qSize; ++j)
+        {
+            int data = q.front(); q.pop();
+            if(data == b) return true;
+            
+            for(int i=0; i<graph[data].size(); ++i)
+            {
+                if(!visited[graph[data][i]])
+                {
+                    q.push(graph[data][i]);
+                    visited[graph[data][i]] = true;
+                }
+            }
+        }
+        result++;
+    }
+    return false;
+}
 
 int main()
 {
-    int x, y =0
+    int x, y =0;
     std::cin >> n >> a >> b >> m;
     
     graph.assign(n+1,std::vector<int>(0, 0));
@@ -44,7 +72,8 @@ int main()
         graph[y].push_back(x);
     }
     
-    //DFS(a); std::cout << result;
-    std::cout << (DFS(a) ? result : -1);
+    //std::cout << (DFS(a) ? result : -1);    
+    std::cout << (BFS(a) ? result : -1);
+    
     return 0;
 }
